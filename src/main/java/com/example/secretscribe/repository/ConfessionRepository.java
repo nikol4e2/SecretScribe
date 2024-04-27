@@ -11,8 +11,9 @@ import java.util.Optional;
 @Repository
 public interface ConfessionRepository extends JpaRepository<Confession,Long> {
 
-    Optional<Confession> findByTextContains(String text);
-    List<Optional> findAllByApproved(boolean approved);
+
+    List<Confession> findAllByApproved(boolean approved);
+    List<Confession> findAllByTextContaining(String text);
 
 
 }
