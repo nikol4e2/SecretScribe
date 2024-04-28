@@ -106,6 +106,13 @@ public class ConfessionServiceImpl implements ConfessionService {
     }
 
     @Override
+    public List<Confession> findAllUnapproved() {
+        List<Confession> confessions=confessionRepository.findAll();
+        confessions.removeIf(i->i.isApproved());
+        return confessions;
+    }
+
+    @Override
     public void deleteById(Long id) {
         this.confessionRepository.deleteById(id);
     }

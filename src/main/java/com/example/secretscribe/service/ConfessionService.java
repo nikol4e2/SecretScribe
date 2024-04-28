@@ -19,6 +19,7 @@ public interface ConfessionService {
     void addDislikeToConfession(Long id);
     List<Confession> findAllPopular();
     List<Confession> findAllApproved();
+    List<Confession> findAllUnapproved();
 
     void deleteById(Long id);
 }
