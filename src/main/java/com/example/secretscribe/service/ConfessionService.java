@@ -17,6 +17,8 @@ public interface ConfessionService {
     Confession addCommentToConfession(Long id, Comment comment);
     void addLikeToConfession(Long id);
     void addDislikeToConfession(Long id);
+    List<Confession> findAllPopular();
+    List<Confession> findAllApproved();
 
     void deleteById(Long id);
 }

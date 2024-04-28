@@ -2,9 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Confession</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #495057;
+            margin-top: 50px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            color: #dee2e6;
+        }
+        .form-container input[type="text"],
+        .form-container textarea {
+            background-color: #adb5bd;
+            color: #212529;
+        }
+        .form-container input[type="submit"] {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-container">
+                <h2>Add Confession</h2>
+                <form action="/confession/add" method="POST">
+                    <div class="form-group">
+                        <label for="text">Confession Text</label>
+                        <textarea class="form-control" id="text" rows="3" required name="text"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

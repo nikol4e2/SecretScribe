@@ -7,6 +7,7 @@ import com.example.secretscribe.service.ConfessionService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +81,28 @@ public class ConfessionServiceImpl implements ConfessionService {
             confession.setDislikes(confession.getDislikes()+1);
             confessionRepository.save(confession);
         }
+    }
+
+    @Override
+    public List<Confession> findAllPopular() {
+        List<Confession> popular=new ArrayList<>();
+        List<Confession> allConfession=findAllApproved();
+        for(int i=0;i<allConfession.size();i++)
+        {
+            Confession confession=allConfession.get(i);
+            if(confession.getLikes()+confession.getDislikes()>=100)
+            {
+                popular.add(confession);
+            }
+        }
+        return popular;
+    }
+
+    @Override
+    public List<Confession> findAllApproved() {
+       List<Confession> confessions=confessionRepository.findAll();
+       confessions.removeIf(i->!i.isApproved());
+       return confessions;
     }
 
     @Override

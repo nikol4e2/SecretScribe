@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #343a40;
+      color: #fff;
+    }
+    .navbar {
+      background-color: #495057;
+    }
+    .navbar-brand,
+    .navbar-nav .nav-link {
+      color: #fff !important;
+    }
+    .confession-container {
+      margin-top: 50px;
+    }
+    .confession {
+      background-color: #495057;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+    .confession h3 {
+      color: #fff;
+    }
+    .confession p {
+      color: #dee2e6;
+    }
+    .like-dislike {
+      margin-bottom: 10px;
+    }
+    .comment-section {
+      margin-top: 20px;
+    }
+    .comment {
+      background-color: #6c757d;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .comment p {
+      color: #dee2e6;
+    }
+    .btn-primary {
+      background-color: #007bff !important;
+      border-color: #007bff !important;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3 !important;
+      border-color: #0056b3 !important;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="#">Secret Scribe</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">New Confessions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Popular Confessions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Add Confession</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Login as Admin</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container confession-container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="confession" th:each="confession : ${confessions}">
+        <p th:text="${confession.getText()}"></p>
+        <div class="like-dislike">
+          <form action="/confession/like" method="POST" >
+            <input type="hidden" name="id" th:value="${confession.getId()}">
+            <button type="submit" class="btn btn-success mr-2">Approve</button>
+          </form>
+          <form action="/confession/dislike" method="POST" >
+            <input type="hidden" name="id" th:value="${confession.getId()}">
+            <button type="submit" class="btn btn-danger">Condemn</button>
+          </form>
+
+        </div>
+        <div class="comment-section">
+          <h5>Comments</h5>
+          <div class="comment">
+            <p>Comment 1</p>
+          </div>
+          <div class="comment">
+            <p>Comment 2</p>
+          </div>
+          <!-- Add more comments here -->
+          <form>
+            <div class="form-group">
+              <textarea class="form-control" rows="2" placeholder="Add a comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div class="confession">
+        <h3>Another Confession Title</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit risus in fermentum luctus. Nulla facilisi. Nullam consectetur quam at enim vehicula, sed posuere velit ultrices.</p>
+        <div class="like-dislike">
+          <button type="button" class="btn btn-success mr-2">Like</button>
+          <button type="button" class="btn btn-danger">Dislike</button>
+        </div>
+        <div class="comment-section">
+          <h5>Comments</h5>
+          <div class="comment">
+            <p>Comment 1</p>
+          </div>
+          <!-- Add more comments here -->
+          <form>
+            <div class="form-group">
+              <textarea class="form-control" rows="2" placeholder="Add a comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <!-- Add more confessions here -->
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
