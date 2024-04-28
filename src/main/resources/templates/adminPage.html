@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #343a40;
+      color: #fff;
+    }
+    .navbar {
+      background-color: #495057;
+    }
+    .navbar-brand,
+    .navbar-nav .nav-link {
+      color: #fff !important;
+    }
+    .confession-container {
+      margin-top: 50px;
+    }
+    .confession {
+      background-color: #495057;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+    .confession h3 {
+      color: #fff;
+    }
+    .confession p {
+      color: #dee2e6;
+    }
+    .action-buttons {
+      margin-top: 10px;
+    }
+    .btn-primary {
+      background-color: #007bff !important;
+      border-color: #007bff !important;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3 !important;
+      border-color: #0056b3 !important;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="#">Admin Panel</a>
+
+</nav>
+
+<div class="container confession-container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="confession" th:each="confession : ${confessions}">
+        <p th:text="${confession.getText()}"></p>
+        <div class="action-buttons">
+          <form action="/admin/approve" method="POST" class="d-inline">
+            <input type="hidden" name="id" th:value="${confession.getId()}">
+            <button type="submit" class="btn btn-success mr-2">Approve</button>
+          </form>
+          <form action="/admin/delete" method="POST" class="d-inline">
+            <input type="hidden" name="id" th:value="${confession.getId()}">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

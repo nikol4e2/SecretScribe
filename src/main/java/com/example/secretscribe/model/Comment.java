@@ -16,6 +16,9 @@ public class Comment {
      private String text;
      private int likes;
      private int dislikes;
+     @ManyToOne
+     @JoinColumn(name = "confession_id")
+     private Confession confession;
 
     public Comment(String text) {
         this.text = text;

@@ -22,7 +22,7 @@ public class Confession {
     private boolean isApproved;
     private int likes;
     private int dislikes;
-    @OneToMany
+    @OneToMany(mappedBy = "confession",cascade = CascadeType.ALL)
     List<Comment> comments;
 
 

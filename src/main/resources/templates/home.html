@@ -37,6 +37,9 @@
     .like-dislike {
       margin-bottom: 10px;
     }
+    .like-dislike button {
+      margin-right: 10px;
+    }
     .comment-section {
       margin-top: 20px;
     }
@@ -48,6 +51,9 @@
     }
     .comment p {
       color: #dee2e6;
+    }
+    .comment-like-dislike {
+      margin-top: 5px;
     }
     .btn-primary {
       background-color: #007bff !important;
@@ -90,26 +96,41 @@
       <div class="confession" th:each="confession : ${confessions}">
         <p th:text="${confession.getText()}"></p>
         <div class="like-dislike">
-          <form action="/confession/like" method="POST" >
+          <form action="/confession/like" method="POST" class="d-inline">
+
             <input type="hidden" name="id" th:value="${confession.getId()}">
-            <button type="submit" class="btn btn-success mr-2">Approve</button>
+            <button type="submit" class="btn btn-success mr-2" >Approve</button>
+            <span class="badge badge-success mr-2" th:text="${confession.getLikes()}"></span>
           </form>
-          <form action="/confession/dislike" method="POST" >
+
+          <form action="/confession/dislike" method="POST" class="d-inline">
+
             <input type="hidden" name="id" th:value="${confession.getId()}">
             <button type="submit" class="btn btn-danger">Condemn</button>
+            <span class="badge badge-danger " th:text="${confession.getDislikes()}"></span>
           </form>
 
         </div>
         <div class="comment-section">
-          <h5>Comments</h5>
-          <div class="comment">
-            <p>Comment 1</p>
+          <h5><a th:href="@{/comments/{id}(id=${confession.getId()})}">Comments</a></h5>
+          <div class="comment" th:each="comment : ${confession.getComments()}">
+            <p th:text="${comment.getText()}"></p>
+            <div class="comment-like-dislike">
+              <form action="/comment/like" method="POST">
+                <input type="hidden" th:value="${comment.getId()}" name="commentId">
+                <button type="button" class="btn btn-success mr-2">Approve </button>
+                <span class="badge badge-success mr-2" th:text="${comment.getLikes()}"></span>
+              </form>
+              <form action="/comment/dislike" method="POST">
+                <input type="hidden" th:value="${comment.getId()}" name="commentId">
+                <button type="button" class="btn btn-danger">Condemn</button>
+                <span class="badge badge-danger" th:text="${comment.getDislikes()}"></span>
+              </form>
+
+            </div>
           </div>
-          <div class="comment">
-            <p>Comment 2</p>
-          </div>
-          <!-- Add more comments here -->
-          <form>
+          <form action="/comment/add" method="POST">
+            <input type="hidden" th:value="${confession.getId()}" name="confessionId">
             <div class="form-group">
               <textarea class="form-control" rows="2" placeholder="Add a comment"></textarea>
             </div>
@@ -117,33 +138,11 @@
           </form>
         </div>
       </div>
-      <div class="confession">
-        <h3>Another Confession Title</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit risus in fermentum luctus. Nulla facilisi. Nullam consectetur quam at enim vehicula, sed posuere velit ultrices.</p>
-        <div class="like-dislike">
-          <button type="button" class="btn btn-success mr-2">Like</button>
-          <button type="button" class="btn btn-danger">Dislike</button>
-        </div>
-        <div class="comment-section">
-          <h5>Comments</h5>
-          <div class="comment">
-            <p>Comment 1</p>
-          </div>
-          <!-- Add more comments here -->
-          <form>
-            <div class="form-group">
-              <textarea class="form-control" rows="2" placeholder="Add a comment"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </div>
-      </div>
-      <!-- Add more confessions here -->
     </div>
   </div>
 </div>
 
-<!-- Bootstrap JS (optional) -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

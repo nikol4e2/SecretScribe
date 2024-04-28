@@ -20,7 +20,8 @@ public class HomeController {
     @GetMapping
     private String getHomePage(Model model)
     {
-        model.addAttribute("confessions",confessionService.findAllApproved());
+        //model.addAttribute("confessions",confessionService.findAllApproved());
+        model.addAttribute("confessions",confessionService.findAll());
         return "home";
     }
 }
