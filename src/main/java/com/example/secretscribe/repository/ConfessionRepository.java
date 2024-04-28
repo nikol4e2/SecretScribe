@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface ConfessionRepository extends JpaRepository<Confession,Long> {
 
 
-    List<Confession> findAllByApproved(boolean approved);
+
     List<Confession> findAllByTextContaining(String text);
 
 
