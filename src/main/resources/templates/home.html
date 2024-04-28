@@ -112,7 +112,7 @@
 
         </div>
         <div class="comment-section">
-          <h5><a th:href="@{/comments/{id}(id=${confession.getId()})}">Comments</a></h5>
+          <h5><a th:href="@{/comment/{id}(id=${confession.getId()})}">Comments</a></h5>
           <div class="comment" th:each="comment : ${confession.getComments()}">
             <p th:text="${comment.getText()}"></p>
             <div class="comment-like-dislike">
@@ -132,7 +132,7 @@
           <form action="/comment/add" method="POST">
             <input type="hidden" th:value="${confession.getId()}" name="confessionId">
             <div class="form-group">
-              <textarea class="form-control" rows="2" placeholder="Add a comment"></textarea>
+              <textarea class="form-control" rows="2" placeholder="Add a comment" name="text"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>

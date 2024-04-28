@@ -50,6 +50,6 @@ public class CommentServiceImpl  implements CommentService {
 
     @Override
     public void deleteById(Long id) {
-
+        this.commentRepository.deleteById(id);
     }
 }

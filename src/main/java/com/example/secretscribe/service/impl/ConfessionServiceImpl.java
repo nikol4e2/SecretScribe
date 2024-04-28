@@ -59,7 +59,9 @@ public class ConfessionServiceImpl implements ConfessionService {
     public Confession addCommentToConfession(Long id, Comment comment) {
         Confession confession=this.confessionRepository.findById(id).get();
         if(confession!=null) {
-            confession.getComments().add(comment);
+            List<Comment> comments=confession.getComments();
+            comments.add(comment);
+            confession.setComments(comments);
             confessionRepository.save(confession);
         }
         return confession;
