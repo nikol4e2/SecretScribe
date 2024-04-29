@@ -113,21 +113,7 @@
         </div>
         <div class="comment-section">
           <h5><a th:href="@{/comment/{id}(id=${confession.getId()})}">Comments</a></h5>
-          <div class="comment" th:each="comment : ${confession.getComments()}">
-            <p th:text="${comment.getText()}"></p>
-            <div class="comment-like-dislike">
-              <form action="/comment/like" method="POST">
-                <input type="hidden" th:value="${comment.getId()}" name="commentId">
-                <button type="button" class="btn btn-success mr-2">Approve </button>
-                <span class="badge badge-success mr-2" th:text="${comment.getLikes()}"></span>
-              </form>
-              <form action="/comment/dislike" method="POST">
-                <input type="hidden" th:value="${comment.getId()}" name="commentId">
-                <button type="button" class="btn btn-danger">Condemn</button>
-                <span class="badge badge-danger" th:text="${comment.getDislikes()}"></span>
-              </form>
 
-            </div>
           </div>
           <form action="/comment/add" method="POST">
             <input type="hidden" th:value="${confession.getId()}" name="confessionId">

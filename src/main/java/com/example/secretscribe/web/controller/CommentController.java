@@ -34,7 +34,8 @@ public class CommentController {
     public String addComment(@RequestParam Long confessionId,@RequestParam String text)
     {
         Confession confession=confessionService.findById(confessionId).get();
-        Comment comment=this.commentService.saveComment(text);
+        Comment comment=this.commentService.saveComment(text,confession);
+
         confessionService.addCommentToConfession(confessionId,comment);
         return "redirect:/comment/"+confessionId;
 

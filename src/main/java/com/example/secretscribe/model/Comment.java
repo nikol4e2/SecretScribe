@@ -20,9 +20,11 @@ public class Comment {
      @JoinColumn(name = "confession_id")
      private Confession confession;
 
-    public Comment(String text) {
+    public Comment(String text,Confession confession) {
         this.text = text;
         this.likes = 0;
         this.dislikes = 0;
+        this.confession=confession;
     }
+
 }

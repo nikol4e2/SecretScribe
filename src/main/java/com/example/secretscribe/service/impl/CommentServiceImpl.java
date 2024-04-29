@@ -1,6 +1,7 @@
 package com.example.secretscribe.service.impl;
 
 import com.example.secretscribe.model.Comment;
+import com.example.secretscribe.model.Confession;
 import com.example.secretscribe.repository.CommentRepository;
 import com.example.secretscribe.service.CommentService;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class CommentServiceImpl  implements CommentService {
     }
 
     @Override
-    public Comment saveComment(String text) {
-        Comment comment=new Comment(text);
+    public Comment saveComment(String text, Confession confession) {
+        Comment comment=new Comment(text,confession);
         return commentRepository.save(comment);
     }
 
