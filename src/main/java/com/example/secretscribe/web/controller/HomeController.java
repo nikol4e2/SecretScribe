@@ -24,4 +24,11 @@ public class HomeController {
         model.addAttribute("confessions",confessionService.findAll());
         return "home";
     }
+
+    @GetMapping(path = "popular")
+    private String getPopularPage(Model model)
+    {
+        model.addAttribute("confessions",confessionService.findAllPopular());
+        return "home";
+    }
 }

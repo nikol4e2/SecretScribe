@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ConfessionServiceImpl implements ConfessionService {
 
     private final ConfessionRepository confessionRepository;
+    private final int popularityNumber=100;
 
 
     public ConfessionServiceImpl(ConfessionRepository confessionRepository) {
@@ -92,7 +93,7 @@ public class ConfessionServiceImpl implements ConfessionService {
         for(int i=0;i<allConfession.size();i++)
         {
             Confession confession=allConfession.get(i);
-            if(confession.getLikes()+confession.getDislikes()>=100)
+            if(confession.getLikes()+confession.getDislikes()>=popularityNumber)
             {
                 popular.add(confession);
             }
