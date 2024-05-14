@@ -63,19 +63,21 @@
                         <div class="comment-like-dislike">
                             <form action="/comment/like" method="POST">
                                 <input type="hidden" th:value="${comment.getId()}" name="commentId">
-                                <button type="button" class="btn btn-success mr-2">Approve </button>
+                                <input type="hidden" th:value="${confession.getId()}" name="confessionID">
+                                <button type="sumbit" class="btn btn-success mr-2">Approve </button>
                                 <span class="badge badge-success mr-2" th:text="${comment.getLikes()}"></span>
                             </form>
                             <form action="/comment/dislike" method="POST">
                                 <input type="hidden" th:value="${comment.getId()}" name="commentId">
-                                <button type="button" class="btn btn-danger">Condemn</button>
+                                <input type="hidden" th:value="${confession.getId()}" name="confessionID">
+                                <button type="submit" class="btn btn-danger">Condemn</button>
                                 <span class="badge badge-danger" th:text="${comment.getDislikes()}"></span>
                             </form>
 
                         </div>
                     </div>
                     <form action="/comment/add" method="POST">
-                        <input type="hidden" th:value="${confession.getId()}" name="confessionId">
+                        <input type="hidden" th:value="${confession.getId()}" name="confessionID">
                         <div class="form-group">
                             <textarea class="form-control" rows="2" placeholder="Add a comment" name="text"></textarea>
                         </div>

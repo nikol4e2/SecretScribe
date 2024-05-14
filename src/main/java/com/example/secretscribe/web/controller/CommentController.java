@@ -38,8 +38,21 @@ public class CommentController {
 
         confessionService.addCommentToConfession(confessionId,comment);
         return "redirect:/comment/"+confessionId;
+    }
+
+    @PostMapping("/like")
+    public String addLikeToComment(@RequestParam Long commentId,@RequestParam Long confessionID)
+    {
+        this.commentService.addLikeToComment(commentId);
+        return "redirect:/comment/"+confessionID;
+    }
 
 
+    @PostMapping("/dislike")
+    public String addDislikeToComment(@RequestParam Long commentId,@RequestParam Long confessionID)
+    {
+        this.commentService.addDislikeToComment(commentId);
+        return "redirect:/comment/"+confessionID;
 
     }
 }
