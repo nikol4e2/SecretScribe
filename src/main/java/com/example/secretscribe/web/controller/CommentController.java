@@ -55,4 +55,11 @@ public class CommentController {
         return "redirect:/comment/"+confessionID;
 
     }
+
+    @PostMapping("/delete")
+    public String deleteComment(@RequestParam Long commentId,@RequestParam Long confessionId)
+    {
+        this.commentService.deleteById(commentId);
+        return "redirect:/comment/"+confessionId;
+    }
 }
