@@ -3,7 +3,7 @@ package com.example.secretscribe.web.rest;
 
 import com.example.secretscribe.model.Comment;
 import com.example.secretscribe.model.Confession;
-import com.example.secretscribe.model.dto.commentDto;
+import com.example.secretscribe.model.dto.CommentDto;
 import com.example.secretscribe.service.CommentService;
 import com.example.secretscribe.service.ConfessionService;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/comments")
-public class commentRestController {
+public class CommentRestController {
 
     private final CommentService commentService;
     private final ConfessionService confessionService;
 
-    public commentRestController(CommentService commentService, ConfessionService confessionService) {
+    public CommentRestController(CommentService commentService, ConfessionService confessionService) {
         this.commentService = commentService;
         this.confessionService = confessionService;
     }
@@ -30,7 +30,7 @@ public class commentRestController {
     }
 
     @PostMapping("/add/{confessionId}")
-    public ResponseEntity<Comment> save(@PathVariable Long confessionId,@RequestBody commentDto commentDto)
+    public ResponseEntity<Comment> save(@PathVariable Long confessionId,@RequestBody CommentDto commentDto)
     {
         Confession confession=confessionService.findById(confessionId).get();
         Comment comment=commentService.saveComment(commentDto);

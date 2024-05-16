@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-public class adminDto {
+public class AdminDto {
 
     private String username;
     private String password;
 
-    public adminDto(String username, String password) {
+    public AdminDto(String username, String password) {
         this.username = username;
         this.password = password;
     }

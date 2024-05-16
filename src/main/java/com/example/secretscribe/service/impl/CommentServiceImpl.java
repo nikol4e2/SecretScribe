@@ -2,7 +2,7 @@ package com.example.secretscribe.service.impl;
 
 import com.example.secretscribe.model.Comment;
 import com.example.secretscribe.model.Confession;
-import com.example.secretscribe.model.dto.commentDto;
+import com.example.secretscribe.model.dto.CommentDto;
 import com.example.secretscribe.model.exceptions.ConfessionNotFoundException;
 import com.example.secretscribe.repository.CommentRepository;
 import com.example.secretscribe.repository.ConfessionRepository;
@@ -61,7 +61,7 @@ public class CommentServiceImpl  implements CommentService {
     }
 
     @Override
-    public Comment saveComment(commentDto commentDto) {
+    public Comment saveComment(CommentDto commentDto) {
         Confession confession=confessionRepository.findById(commentDto.getConfession()).orElseThrow(()->new ConfessionNotFoundException(commentDto.getConfession()));
         Comment comment=new Comment(commentDto.getText(),confession);
         return commentRepository.save(comment);

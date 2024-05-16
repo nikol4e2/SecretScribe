@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class confessionDto {
+public class ConfessionDto {
 
     private String text;
     private LocalDate date;
