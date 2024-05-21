@@ -3,6 +3,7 @@ package com.example.secretscribe.web.controller;
 import com.example.secretscribe.model.Confession;
 import com.example.secretscribe.service.AdminService;
 import com.example.secretscribe.service.ConfessionService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +24,19 @@ public class AdminController {
     }
 
     @GetMapping("/page")
-    public String getAdminPage(Model model) {
-        model.addAttribute("confessions", confessionService.findAllUnapproved());
-        return "adminPage";
+    public String getAdminPage(Model model, HttpServletRequest request) {
+        if(request.getSession().getAttribute("isAdminLogged")!=null && request.getSession().getAttribute("isAdminLogged").equals("true"))
+        {
+            model.addAttribute("confessions", confessionService.findAllUnapproved());
+            return "adminPage";
+        }
+        return "notAuthorized";
+
     }
 
     @PostMapping("/approve")
     public String approveConfession(@RequestParam Long id) {
+
         if(this.confessionService.findById(id).isPresent()) {
             this.confessionService.approveConfession(id);
             return "redirect:/admin/page";

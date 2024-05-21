@@ -32,10 +32,11 @@ public class AuthController {
     {
         Admin admin=null;
 
-        //TODO Implement showing the error on Front end
+
         try {
             admin=adminService.login(username,password);
             request.getSession().setAttribute("admin",admin);
+            request.getSession().setAttribute("isAdminLogged","true");
             return "redirect:/admin/page";
         }catch (InvalidUserCredentialsException exception){
             model.addAttribute("hasError",true);
