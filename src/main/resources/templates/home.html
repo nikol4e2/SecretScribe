@@ -19,6 +19,9 @@
     .navbar-nav .nav-link {
       color: #fff !important;
     }
+    .navbar-nav .nav-link:hover {
+      color: #007bff !important;
+    }
     .confession-container {
       margin-top: 50px;
     }
@@ -28,17 +31,33 @@
       margin-bottom: 20px;
       border-radius: 10px;
     }
-    .confession h3 {
-      color: #fff;
-    }
-    .confession p {
+    .confession .confession-text {
+      background-color: #6c757d; /* Lighter background color for the text area */
+      padding: 15px;
+      border-radius: 10px;
       color: #dee2e6;
     }
     .like-dislike {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
       margin-bottom: 10px;
     }
+    .like-dislike form {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+    }
     .like-dislike button {
-      margin-right: 10px;
+      background-color: #495057; /* Dark button color to contrast with lighter background */
+      border: 1px solid #fff; /* Add border */
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .like-dislike button:hover {
+      background-color: #5a6268;
     }
     .comment-section {
       margin-top: 20px;
@@ -51,9 +70,6 @@
     }
     .comment p {
       color: #dee2e6;
-    }
-    .comment-like-dislike {
-      margin-top: 5px;
     }
     .btn-primary {
       background-color: #007bff !important;
@@ -94,40 +110,37 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="confession" th:each="confession : ${confessions}">
-        <p th:text="${confession.getText()}"></p>
+        <div class="confession-text">
+          <p th:text="${confession.getText()}"></p>
+        </div>
         <div class="like-dislike">
           <form action="/confession/like" method="POST" class="d-inline">
-
             <input type="hidden" name="id" th:value="${confession.getId()}">
-            <button type="submit" class="btn btn-success mr-2" >Approve</button>
-            <span class="badge badge-success mr-2" th:text="${confession.getLikes()}"></span>
+            <button type="submit" class="btn btn-success btn-bordered"> <!-- Add btn-bordered class for border -->
+              Approve <span class="badge badge-light" th:text="${confession.getLikes()}"></span>
+            </button>
           </form>
-
           <form action="/confession/dislike" method="POST" class="d-inline">
-
             <input type="hidden" name="id" th:value="${confession.getId()}">
-            <button type="submit" class="btn btn-danger">Condemn</button>
-            <span class="badge badge-danger " th:text="${confession.getDislikes()}"></span>
+            <button type="submit" class="btn btn-danger btn-bordered"> <!-- Add btn-bordered class for border -->
+              Condemn <span class="badge badge-light" th:text="${confession.getDislikes()}"></span>
+            </button>
           </form>
-
         </div>
         <div class="comment-section">
           <h5><a th:href="@{/comment/{id}(id=${confession.getId()})}">Comments</a></h5>
-
-          </div>
-          <form action="/comment/add" method="POST">
-            <input type="hidden" th:value="${confession.getId()}" name="confessionId">
-            <div class="form-group">
-              <textarea class="form-control" rows="2" placeholder="Add a comment" name="text"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
         </div>
+        <form action="/comment/add" method="POST">
+          <input type="hidden" th:value="${confession.getId()}" name="confessionId">
+          <div class="form-group">
+            <textarea class="form-control" rows="2" placeholder="Add a comment" name="text"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </div>
     </div>
   </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

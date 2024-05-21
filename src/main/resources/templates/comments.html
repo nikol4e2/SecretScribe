@@ -39,6 +39,28 @@
         .comment p {
             color: #dee2e6;
         }
+        .like-dislike {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .like-dislike form {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .like-dislike button {
+            background-color: #495057; /* Dark button color to contrast with lighter background */
+            border: 1px solid #fff; /* Add border */
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .like-dislike button:hover {
+            background-color: #5a6268;
+        }
         .btn-primary {
             background-color: #007bff !important;
             border-color: #007bff !important;
@@ -60,11 +82,11 @@
                     <h5><a th:href="@{/comment/{id}(id=${confession.getId()})}">Comments</a></h5>
                     <div class="comment" th:each="comment : ${confession.getComments()}">
                         <p th:text="${comment.getText()}"></p>
-                        <div class="comment-like-dislike">
+                        <div class="like-dislike">
                             <form action="/comment/like" method="POST">
                                 <input type="hidden" th:value="${comment.getId()}" name="commentId">
                                 <input type="hidden" th:value="${confession.getId()}" name="confessionID">
-                                <button type="sumbit" class="btn btn-success mr-2">Approve </button>
+                                <button type="submit" class="btn btn-success mr-2">Approve</button>
                                 <span class="badge badge-success mr-2" th:text="${comment.getLikes()}"></span>
                             </form>
                             <form action="/comment/dislike" method="POST">
@@ -73,7 +95,6 @@
                                 <button type="submit" class="btn btn-danger">Condemn</button>
                                 <span class="badge badge-danger" th:text="${comment.getDislikes()}"></span>
                             </form>
-
                         </div>
                     </div>
                     <form action="/comment/add" method="POST">
