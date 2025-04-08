@@ -2,6 +2,7 @@ package com.example.secretscribe.service.impl;
 
 import com.example.secretscribe.model.Comment;
 import com.example.secretscribe.model.Confession;
+import com.example.secretscribe.model.exceptions.ConfessionNotFoundException;
 import com.example.secretscribe.repository.ConfessionRepository;
 import com.example.secretscribe.service.ConfessionService;
 import org.springframework.stereotype.Service;
@@ -48,48 +49,55 @@ public class ConfessionServiceImpl implements ConfessionService {
 
     @Override
     public Confession approveConfession(Long id) {
-        Confession confession=this.confessionRepository.findById(id).get();
-        if(confession!=null) {
-            confession.setApproved(true);
-            confessionRepository.save(confession);
-        }
-        return confession;
+        Optional<Confession> confession=this.confessionRepository.findById(id);
+        if(confession.isPresent()) {
+            confession.get().setApproved(true);
+            confessionRepository.save(confession.get());
+
+            return confession.get();
+        }else throw new ConfessionNotFoundException(id);
+
+
     }
 
     @Override
     public Confession addCommentToConfession(Long id, Comment comment) {
-        Confession confession=this.confessionRepository.findById(id).get();
-        if(confession!=null) {
-            List<Comment> comments=confession.getComments();
+        Optional<Confession> confession=this.confessionRepository.findById(id);
+        if(confession.isPresent()) {
+            List<Comment> comments=confession.get().getComments();
             comments.add(comment);
-            confession.setComments(comments);
-            confessionRepository.save(confession);
-        }
-        return confession;
+            confession.get().setComments(comments);
+            confessionRepository.save(confession.get());
+            return confession.get();
+        }else throw new ConfessionNotFoundException(id);
+
     }
 
     @Override
     public void addLikeToConfession(Long id) {
-        Confession confession=this.confessionRepository.findById(id).get();
-        if(confession!=null) {
-            confession.setLikes(confession.getLikes()+1);
-            confessionRepository.save(confession);
+        Optional<Confession> confession=this.confessionRepository.findById(id);
+
+        if(confession.isPresent()) {
+            confession.get().setLikes(confession.get().getLikes()+1);
+            confessionRepository.save(confession.get());
         }
     }
 
     @Override
     public void addDislikeToConfession(Long id) {
-        Confession confession=this.confessionRepository.findById(id).get();
-        if(confession!=null) {
-            confession.setDislikes(confession.getDislikes()+1);
-            confessionRepository.save(confession);
+        Optional<Confession> confession=this.confessionRepository.findById(id);
+
+        if(confession.isPresent()) {
+            confession.get().setDislikes(confession.get().getDislikes() + 1);
+            confessionRepository.save(confession.get());
         }
+
     }
 
     @Override
     public List<Confession> findAllPopular() {
         List<Confession> popular=new ArrayList<>();
-        List<Confession> allConfession=findAllApproved();
+        List<Confession> allConfession=this.findAllApproved();
         for(int i=0;i<allConfession.size();i++)
         {
             Confession confession=allConfession.get(i);

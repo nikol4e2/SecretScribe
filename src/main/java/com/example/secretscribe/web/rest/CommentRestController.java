@@ -4,15 +4,19 @@ package com.example.secretscribe.web.rest;
 import com.example.secretscribe.model.Comment;
 import com.example.secretscribe.model.Confession;
 import com.example.secretscribe.model.dto.CommentDto;
+import com.example.secretscribe.model.exceptions.ConfessionNotFoundException;
 import com.example.secretscribe.service.CommentService;
 import com.example.secretscribe.service.ConfessionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comments")
+@CrossOrigin(origins = "https://localhost:3000")
 public class CommentRestController {
 
     private final CommentService commentService;
@@ -25,14 +29,16 @@ public class CommentRestController {
 
     @GetMapping("/{id}")
     private List<Comment> showComments(@PathVariable Long id){
-        Confession confession=confessionService.findById(id).get();
+        Confession confession=confessionService.findById(id).orElseThrow(()->new ConfessionNotFoundException(id));
         return confession.getComments();
+
     }
 
     @PostMapping("/add/{confessionId}")
     public ResponseEntity<Comment> save(@PathVariable Long confessionId,@RequestBody CommentDto commentDto)
     {
-        Confession confession=confessionService.findById(confessionId).get();
+
+        Confession confession=confessionService.findById(confessionId).orElseThrow(()->new ConfessionNotFoundException(confessionId));
         Comment comment=commentService.saveComment(commentDto);
         confessionService.addCommentToConfession(confessionId,comment);
         return commentService.findById(comment.getId()).map(comment1 -> ResponseEntity.ok().body(comment1))
@@ -40,7 +46,7 @@ public class CommentRestController {
     }
 
     @PostMapping("/like/{id}")
-    public ResponseEntity addLikeToComment(@PathVariable Long id)
+    public ResponseEntity<Comment> addLikeToComment(@PathVariable Long id)
     {
         if(commentService.findById(id).isPresent())
         {
@@ -52,7 +58,7 @@ public class CommentRestController {
 
 
     @PostMapping("/dislike/{id}")
-    public ResponseEntity addDisikeToComment(@PathVariable Long id)
+    public ResponseEntity<Comment> addDislikeToComment(@PathVariable Long id)
     {
         if(commentService.findById(id).isPresent())
         {
@@ -63,7 +69,7 @@ public class CommentRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteById(@PathVariable Long id)
+    public ResponseEntity<Comment> deleteById(@PathVariable Long id)
     {
         this.commentService.deleteById(id);
         if(this.commentService.findById(id).isEmpty())

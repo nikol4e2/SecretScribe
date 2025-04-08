@@ -36,23 +36,25 @@ public class CommentServiceImpl  implements CommentService {
 
     @Override
     public void addLikeToComment(Long id) {
-        Comment comment=(Comment) commentRepository.findById(id).get();
-        if(comment!=null)
+
+        Optional<Comment> comment= this.commentRepository.findById(id);
+        if(comment.isPresent())
         {
-            comment.setLikes(comment.getLikes()+1);
-            commentRepository.save(comment);
+            comment.get().setLikes(comment.get().getLikes()+1);
+            commentRepository.save(comment.get());
         }
 
     }
 
     @Override
     public void addDislikeToComment(Long id) {
-        Comment comment=(Comment) commentRepository.findById(id).get();
-        if(comment!=null)
-        {
-            comment.setDislikes(comment.getDislikes()+1);
-            commentRepository.save(comment);
-        }
+       Optional<Comment> comment= this.commentRepository.findById(id);
+       if(comment.isPresent())
+       {
+           comment.get().setDislikes(comment.get().getLikes()-1);
+           commentRepository.save(comment.get());
+       }
+
     }
 
     @Override

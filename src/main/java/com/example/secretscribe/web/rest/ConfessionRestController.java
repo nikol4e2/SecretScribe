@@ -2,6 +2,7 @@ package com.example.secretscribe.web.rest;
 
 import com.example.secretscribe.model.Confession;
 import com.example.secretscribe.model.dto.ConfessionDto;
+import com.example.secretscribe.model.exceptions.ConfessionNotFoundException;
 import com.example.secretscribe.service.ConfessionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/confession")
+@CrossOrigin(origins = "https://localhost:3000")
 public class ConfessionRestController {
 
     private final ConfessionService confessionService;
@@ -23,6 +25,17 @@ public class ConfessionRestController {
     @GetMapping
     public List<Confession> findAll(){
         return confessionService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Confession> findById(@PathVariable Long id){
+        Confession confession=this.confessionService.findById(id).orElseThrow(()->new ConfessionNotFoundException(id));
+        if(confession!=null)
+        {
+            return ResponseEntity.ok(confession);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/approved")
@@ -48,7 +61,7 @@ public class ConfessionRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteById(@PathVariable Long id)
+    public ResponseEntity<Confession> deleteById(@PathVariable Long id)
     {
         this.confessionService.deleteById(id);
         if(this.confessionService.findById(id).isEmpty())
