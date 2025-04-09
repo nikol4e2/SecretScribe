@@ -70,4 +70,7 @@ public class ConfessionRestController {
             return ResponseEntity.ok().build();
         return ResponseEntity.badRequest().build();
     }
+
+    //TODO Implement Approve confession mapping
+
 }

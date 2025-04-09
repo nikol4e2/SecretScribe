@@ -14,7 +14,7 @@ const ConfessionList = ({type}) => {
         }else {
             loadConfessions();
         }
-    },[])
+    },[type])
 
 
 

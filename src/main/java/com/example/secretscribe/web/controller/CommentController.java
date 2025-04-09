@@ -2,6 +2,7 @@ package com.example.secretscribe.web.controller;
 
 import com.example.secretscribe.model.Comment;
 import com.example.secretscribe.model.Confession;
+import com.example.secretscribe.model.exceptions.ConfessionNotFoundException;
 import com.example.secretscribe.service.CommentService;
 import com.example.secretscribe.service.ConfessionService;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,8 @@ public class CommentController {
     @GetMapping("/{id}")
     public String showComments(@PathVariable Long id, Model model)
     {
-        Confession confession=confessionService.findById(id).get();
+
+        Confession confession=confessionService.findById(id).orElseThrow(()->new ConfessionNotFoundException(id));
         model.addAttribute("comments",confession.getComments());
         model.addAttribute("confession",confession);
         return "comments";
@@ -33,7 +35,7 @@ public class CommentController {
     @PostMapping("/add")
     public String addComment(@RequestParam Long confessionId,@RequestParam String text)
     {
-        Confession confession=confessionService.findById(confessionId).get();
+        Confession confession=confessionService.findById(confessionId).orElseThrow(()->new ConfessionNotFoundException(confessionId));
         Comment comment=this.commentService.saveComment(text,confession);
 
         confessionService.addCommentToConfession(confessionId,comment);

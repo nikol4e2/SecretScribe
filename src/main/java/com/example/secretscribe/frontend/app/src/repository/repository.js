@@ -14,7 +14,11 @@ const ConfessionService= {
     },
 
     addConfession: (text) =>{
-        return axios.post("/confession",  text);
+        return axios.post("/confession/add",  text,{
+            headers: {
+                "Content-Type": "text/plain",
+            }
+        });
     },
 
     deleteConfession: (id) =>{

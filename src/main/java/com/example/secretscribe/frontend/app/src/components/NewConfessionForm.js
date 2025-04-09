@@ -1,6 +1,22 @@
 import React from 'react';
 
+import ConfessionService from "../repository/repository";
 const NewConfessionForm = () => {
+
+
+
+
+    const [confessionText, setConfessionText] = React.useState('');
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        ConfessionService.addConfession(confessionText).catch(err => console.log(err));
+
+        setConfessionText('');
+
+
+    }
     return (
         <div className="container">
             <div className="row">
@@ -8,12 +24,12 @@ const NewConfessionForm = () => {
 
                     <div className="form-container">
                         <h2>Add Confession</h2>
-                        <form action="" method="">
+                        <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="text">Confession Text:</label>
-                                <textarea className="form-control" id="text" rows="3" required name="text"></textarea>
+                                <textarea className="form-control" id="text" rows="3" required name="text" onChange={(e)=>setConfessionText(e.target.value)}></textarea>
                             </div>
-                            <button type="submit" className="btn btn-primary mt-3">Submit</button>
+                            <button type="submit"  className="btn btn-primary mt-3">Submit</button>
                         </form>
                     </div>
                 </div>
