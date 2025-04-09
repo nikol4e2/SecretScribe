@@ -27,7 +27,24 @@ const ConfessionService= {
 
     fetchComments: (id) =>{
         return axios.get(`/comments/${id}`);
+    },
+
+    addLikeToConfession: (id) =>{
+        return axios.post(`/confession/approve/${id}`);
+    },
+
+    addDislikeToConfession: (id) =>{
+        return axios.post(`/confession/condemn/${id}`);
+    },
+
+    addCommentToConfession: (id,text) =>{
+        return axios.post(`/comments/add/${id}`,text,{
+            headers: {
+                "Content-Type": "text/plain",
+            }
+        });
     }
+
 
 
 }

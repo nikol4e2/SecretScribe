@@ -71,6 +71,29 @@ public class ConfessionRestController {
         return ResponseEntity.badRequest().build();
     }
 
-    //TODO Implement Approve confession mapping
+
+    @PostMapping("/approve/{id}")
+    public ResponseEntity<Confession> approveConfession(@PathVariable Long id)
+    {
+        if(this.confessionService.findById(id).isPresent())
+        {
+            this.confessionService.addLikeToConfession(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/condemn/{id}")
+    public ResponseEntity<Confession> condemnConfession(@PathVariable Long id)
+    {
+        if(this.confessionService.findById(id).isPresent())
+        {
+            this.confessionService.addDislikeToConfession(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    //TODO Implement removing like or dislike from confession
 
 }

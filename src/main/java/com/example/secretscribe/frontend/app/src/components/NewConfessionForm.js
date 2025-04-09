@@ -27,7 +27,7 @@ const NewConfessionForm = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="text">Confession Text:</label>
-                                <textarea className="form-control" id="text" rows="3" required name="text" onChange={(e)=>setConfessionText(e.target.value)}></textarea>
+                                <textarea className="form-control" id="text" rows="3" required name="text" value={confessionText} onChange={(e)=>setConfessionText(e.target.value)}></textarea>
                             </div>
                             <button type="submit"  className="btn btn-primary mt-3">Submit</button>
                         </form>

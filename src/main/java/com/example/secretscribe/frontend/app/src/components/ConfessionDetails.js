@@ -10,9 +10,14 @@ const ConfessionDetails = () => {
     const [confession, setConfession] = React.useState(null);
     const [comments, setComments] = React.useState([]);
 
+    const onCommentAdded = () => {
+        loadComments(id);
+    }
+
     useEffect(() => {
         loadConfessionById(id);
         loadComments(id);
+
     },[id]);
 
     const loadConfessionById = (idObj) => {
@@ -35,7 +40,7 @@ const ConfessionDetails = () => {
                 <div className="col-md-8 offset-md-2">
                     <div className="confession">
                         <p>{confession.text}</p>
-                        <LikeDislike confession={confession.id} />
+                        <LikeDislike confession={confession} />
 
                         <div className="comment-section mt-4">
                             <h5>Comments</h5>
@@ -44,7 +49,7 @@ const ConfessionDetails = () => {
                                     <div key={comment.id} className="comment mb-3">
                                         <p>{comment.text}</p>
                                         <div className="like-dislike">
-                                            <form action="">
+                                            <form >
                                                 <input type="hidden" value={comment.id} name="commentId"/>
                                                 <input type="hidden" value={confession.id} name="confessionId"/>
                                                 <button type="submit" className="btn btn-success mr-2">Approve</button>
@@ -65,7 +70,7 @@ const ConfessionDetails = () => {
                                 <p>No comments yet.</p>
                             )}
 
-                            <CommentForm confessionId={confession.id} />
+                            <CommentForm onCommentAdded={onCommentAdded} confessionId={confession.id} />
                         </div>
                     </div>
                 </div>
