@@ -1,5 +1,6 @@
 package com.example.secretscribe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class Comment {
      private int dislikes;
      @ManyToOne
      @JoinColumn(name = "confession_id")
+     @JsonIgnoreProperties("comments")
      private Confession confession;
 
     public Comment(String text,Confession confession) {

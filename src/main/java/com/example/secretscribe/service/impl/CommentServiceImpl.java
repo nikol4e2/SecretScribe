@@ -3,6 +3,7 @@ package com.example.secretscribe.service.impl;
 import com.example.secretscribe.model.Comment;
 import com.example.secretscribe.model.Confession;
 import com.example.secretscribe.model.dto.CommentDto;
+import com.example.secretscribe.model.exceptions.CommentNotFoundException;
 import com.example.secretscribe.model.exceptions.ConfessionNotFoundException;
 import com.example.secretscribe.repository.CommentRepository;
 import com.example.secretscribe.repository.ConfessionRepository;
@@ -36,24 +37,21 @@ public class CommentServiceImpl  implements CommentService {
 
     @Override
     public void addLikeToComment(Long id) {
+        Comment comment= this.commentRepository.findById(id).orElseThrow(()->new CommentNotFoundException(id));
 
-        Optional<Comment> comment= this.commentRepository.findById(id);
-        if(comment.isPresent())
-        {
-            comment.get().setLikes(comment.get().getLikes()+1);
-            commentRepository.save(comment.get());
-        }
+
+        comment.setLikes(comment.getLikes()+1);
+        commentRepository.save(comment);
+
 
     }
 
     @Override
     public void addDislikeToComment(Long id) {
-       Optional<Comment> comment= this.commentRepository.findById(id);
-       if(comment.isPresent())
-       {
-           comment.get().setDislikes(comment.get().getLikes()-1);
-           commentRepository.save(comment.get());
-       }
+       Comment comment= this.commentRepository.findById(id).orElseThrow(()->new CommentNotFoundException(id));
+       comment.setDislikes(comment.getDislikes()+1);
+       commentRepository.save(comment);
+
 
     }
 

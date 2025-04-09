@@ -14,11 +14,12 @@ const ConfessionList = ({type}) => {
         }else {
             loadConfessions();
         }
-    })
+    },[])
 
 
 
     const loadConfessions= () =>{
+
         ConfessionService.fetchConfessions().then(data => setConfessions(data.data)).catch(err => console.log(err));
     }
 
@@ -32,6 +33,7 @@ const ConfessionList = ({type}) => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-8 offset-md-2">
+
                     {confessions.length > 0 ? (
                     confessions.map(confession =>(
                         <Confession key={confession.id} confession={confession} />

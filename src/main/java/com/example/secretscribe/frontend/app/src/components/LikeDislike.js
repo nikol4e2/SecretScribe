@@ -13,7 +13,7 @@ const LikeDislike = ({confession}) => {
             <form action="" >
                 <input type="hidden" value={confession.id} />
                 <button type="submit" className="btn btn-danger">
-                    Approve
+                    Condemn
                     <span className="badge badge-light">{confession.dislikes}</span>
                 </button>
             </form>

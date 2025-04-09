@@ -5,6 +5,9 @@ import { useEffect, useState} from "react";
 import Navbar from "./components/Navbar";
 import ConfessionList from "./components/ConfessionList";
 import ConfessionService from "./repository/repository";
+import ConfessionDetails from "./components/ConfessionDetails";
+import NewConfessionForm from "./components/NewConfessionForm";
+import Login from "./components/Login";
 
 
 function App() {
@@ -12,6 +15,7 @@ function App() {
         { id: 1, text: "This is a confession.", likes: 10, dislikes: 2 },
         { id: 2, text: "Another secret revealed.", likes: 5, dislikes: 1 }
     ];
+
 
 
 
@@ -24,6 +28,9 @@ function App() {
         <Routes>
             <Route  path="/popular" element={<ConfessionList type="popular" />} />
             <Route  path="/"  element={<ConfessionList type="all" />} />
+            <Route path="/comment/:confessionId" element={<ConfessionDetails />} />
+            <Route path="/add" element={<NewConfessionForm />}></Route>
+            <Route path="/login" element={<Login />}></Route>
 
         </Routes>
     </div>

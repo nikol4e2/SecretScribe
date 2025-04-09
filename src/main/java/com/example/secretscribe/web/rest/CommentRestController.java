@@ -35,12 +35,12 @@ public class CommentRestController {
     }
 
     @PostMapping("/add/{confessionId}")
-    public ResponseEntity<Comment> save(@PathVariable Long confessionId,@RequestBody CommentDto commentDto)
+    public ResponseEntity<Comment> save(@PathVariable Long confessionId,@RequestBody String text)
     {
 
         Confession confession=confessionService.findById(confessionId).orElseThrow(()->new ConfessionNotFoundException(confessionId));
-        Comment comment=commentService.saveComment(commentDto);
-        confessionService.addCommentToConfession(confessionId,comment);
+        Comment comment=commentService.saveComment(text,confession);
+
         return commentService.findById(comment.getId()).map(comment1 -> ResponseEntity.ok().body(comment1))
                 .orElseGet(()->ResponseEntity.badRequest().build());
     }

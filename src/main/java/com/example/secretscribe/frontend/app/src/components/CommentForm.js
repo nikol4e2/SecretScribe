@@ -8,6 +8,7 @@ const CommentForm = ({confessionId}) => {
                 <textarea name="text"  rows="2" placeholder="Add a comment"></textarea>
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
+
         </form>
     );
 };

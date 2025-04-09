@@ -54,9 +54,11 @@ public class ConfessionRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Confession> addConfession(@RequestBody ConfessionDto confessionDto)
+    public ResponseEntity<Confession> addConfession(@RequestBody String text)
     {
-        return this.confessionService.save(confessionDto.getText()).map(confession -> ResponseEntity.ok().body(confession))
+
+
+        return this.confessionService.save(text).map(confession -> ResponseEntity.ok().body(confession))
                 .orElseGet(()->ResponseEntity.badRequest().build());
     }
 
