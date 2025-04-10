@@ -8,6 +8,7 @@ import ConfessionService from "./repository/repository";
 import ConfessionDetails from "./components/ConfessionDetails";
 import NewConfessionForm from "./components/NewConfessionForm";
 import Login from "./components/Login";
+import SuccessPage from "./components/SuccessPage";
 
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
             <Route path="/comment/:confessionId" element={<ConfessionDetails />} />
             <Route path="/add" element={<NewConfessionForm />}></Route>
             <Route path="/login" element={<Login />}></Route>
-
+            <Route path="/success" element={<SuccessPage></SuccessPage>} />
         </Routes>
     </div>
   );

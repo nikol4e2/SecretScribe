@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import ConfessionService from "../repository/repository";
 const NewConfessionForm = () => {
 
@@ -7,11 +7,15 @@ const NewConfessionForm = () => {
 
 
     const [confessionText, setConfessionText] = React.useState('');
-
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        ConfessionService.addConfession(confessionText).catch(err => console.log(err));
+        ConfessionService.addConfession(confessionText)
+            .then(()=>{
+                setConfessionText('');
+                navigate('/success');
+            }).catch(err => console.log(err));
 
         setConfessionText('');
 

@@ -43,7 +43,16 @@ const ConfessionService= {
                 "Content-Type": "text/plain",
             }
         });
+    },
+
+    addLikeToComment: (id) =>{
+        return axios.post(`/comments/like/${id}`);
+    },
+
+    addDislikeToComment: (id) =>{
+        return axios.post(`/comments/dislike/${id}`);
     }
+
 
 
 

@@ -43,6 +43,8 @@ const ConfessionDetails = () => {
                         <LikeDislike confession={confession} />
 
                         <div className="comment-section mt-4">
+
+                            <CommentForm onCommentAdded={onCommentAdded} confessionId={confession.id} />
                             <h5>Comments</h5>
                             {comments.length > 0 ?(
                                 comments.map(comment =>(
@@ -53,15 +55,16 @@ const ConfessionDetails = () => {
                                                 <input type="hidden" value={comment.id} name="commentId"/>
                                                 <input type="hidden" value={confession.id} name="confessionId"/>
                                                 <button type="submit" className="btn btn-success mr-2">Approve</button>
-                                                <span className="badge badge-sucess mr-2">{comment.likes}</span>
+
+                                                <span className="">{comment.likes}</span>
                                             </form>
-                                            <form action="/comment/dislike" method="POST">
+                                            <form >
                                                 <input type="hidden" value={comment.id} name="commentId" />
                                                 <input type="hidden" value={confession.id} name="confessionID" />
                                                 <button type="submit" className="btn btn-danger">
                                                     Condemn
                                                 </button>
-                                                <span className="badge badge-danger">{comment.dislikes}</span>
+                                                <span className="">{comment.dislikes}</span>
                                             </form>
                                         </div>
                                     </div>
@@ -70,7 +73,7 @@ const ConfessionDetails = () => {
                                 <p>No comments yet.</p>
                             )}
 
-                            <CommentForm onCommentAdded={onCommentAdded} confessionId={confession.id} />
+
                         </div>
                     </div>
                 </div>
