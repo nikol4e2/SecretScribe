@@ -6,32 +6,47 @@ import {useParams} from "react-router";
 import LikeDislike from "./LikeDislike";
 
 const ConfessionDetails = () => {
-    const id=useParams();
+    const {confessionId}=useParams();
     const [confession, setConfession] = React.useState(null);
     const [comments, setComments] = React.useState([]);
 
     const onCommentAdded = () => {
-        loadComments(id);
+        loadComments(confessionId);
     }
 
     useEffect(() => {
-        loadConfessionById(id);
-        loadComments(id);
+        loadConfessionById(confessionId);
+        loadComments(confessionId);
 
-    },[id]);
+    },[confessionId]);
 
-    const loadConfessionById = (idObj) => {
+    const loadConfessionById = (confessionId) => {
 
-        ConfessionService.fetchConfessionById(idObj.confessionId).then(data => setConfession(data.data)).catch(err => console.log(err));
+        ConfessionService.fetchConfessionById(confessionId).then(data => setConfession(data.data)).catch(err => console.log(err));
     }
 
-    const loadComments = (confessionIdObj) => {
+    const loadComments = (confessionId) => {
 
-       ConfessionService.fetchComments(confessionIdObj.confessionId).then(data => {setComments(data.data)}).catch(err => console.log(err));
+       ConfessionService.fetchComments(confessionId).then(data => {setComments(data.data)}).catch(err => console.log(err));
     }
 
     if (!confession) {
         return <div>Loading confession...</div>
+    }
+
+    const handleAddingLikeToComment = (e,commentId) => {
+        e.preventDefault();
+        ConfessionService.addLikeToComment(commentId).then(()=>{
+            loadComments(confessionId);
+        }).catch(err => console.log(err));
+    }
+
+
+    const handleAddingDislikeToComment = (e,commentId) => {
+        e.preventDefault();
+        ConfessionService.addDislikeToComment(commentId).then(()=>{
+            loadComments(confessionId);
+        }).catch(err => console.log(err));
     }
 
     return (
@@ -44,21 +59,21 @@ const ConfessionDetails = () => {
 
                         <div className="comment-section mt-4">
 
-                            <CommentForm onCommentAdded={onCommentAdded} confessionId={confession.id} />
+                            <CommentForm onCommentAdded={onCommentAdded} confessionId={confessionId} />
                             <h5>Comments</h5>
                             {comments.length > 0 ?(
                                 comments.map(comment =>(
                                     <div key={comment.id} className="comment mb-3">
                                         <p>{comment.text}</p>
                                         <div className="like-dislike">
-                                            <form >
+                                            <form onSubmit={(e)=>{handleAddingLikeToComment(e,comment.id)}} >
                                                 <input type="hidden" value={comment.id} name="commentId"/>
                                                 <input type="hidden" value={confession.id} name="confessionId"/>
                                                 <button type="submit" className="btn btn-success mr-2">Approve</button>
 
                                                 <span className="">{comment.likes}</span>
                                             </form>
-                                            <form >
+                                            <form onSubmit={(e)=>{handleAddingDislikeToComment(e,comment.id)}} >
                                                 <input type="hidden" value={comment.id} name="commentId" />
                                                 <input type="hidden" value={confession.id} name="confessionID" />
                                                 <button type="submit" className="btn btn-danger">
