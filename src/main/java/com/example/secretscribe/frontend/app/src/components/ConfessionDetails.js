@@ -10,6 +10,18 @@ const ConfessionDetails = () => {
     const [confession, setConfession] = React.useState(null);
     const [comments, setComments] = React.useState([]);
 
+    const hasReactedToComment= (commentId) => {
+        const commentReactions = JSON.parse(localStorage.getItem("commentReactions") || "{}");
+        return commentReactions[commentId];
+    }
+
+    const setReactedToComment = (commentId,type) => {
+        const commentReactions = JSON.parse(localStorage.getItem("commentReactions") || "{}");
+        commentReactions[commentId] = type;
+        localStorage.setItem("commentReactions", JSON.stringify(commentReactions));
+    }
+
+
     const onCommentAdded = () => {
         loadComments(confessionId);
     }
@@ -36,15 +48,24 @@ const ConfessionDetails = () => {
 
     const handleAddingLikeToComment = (e,commentId) => {
         e.preventDefault();
+        if(hasReactedToComment(commentId)){
+            return
+        }
         ConfessionService.addLikeToComment(commentId).then(()=>{
+            setReactedToComment(commentId,"like");
             loadComments(confessionId);
+
         }).catch(err => console.log(err));
     }
 
 
     const handleAddingDislikeToComment = (e,commentId) => {
+        if(hasReactedToComment(commentId)){
+            return
+        }
         e.preventDefault();
         ConfessionService.addDislikeToComment(commentId).then(()=>{
+            setReactedToComment(commentId,"dislike");
             loadComments(confessionId);
         }).catch(err => console.log(err));
     }
@@ -69,14 +90,14 @@ const ConfessionDetails = () => {
                                             <form onSubmit={(e)=>{handleAddingLikeToComment(e,comment.id)}} >
                                                 <input type="hidden" value={comment.id} name="commentId"/>
                                                 <input type="hidden" value={confession.id} name="confessionId"/>
-                                                <button type="submit" className="btn btn-success mr-2">Approve</button>
+                                                <button type="submit" className="btn btn-success mr-2" disabled={hasReactedToComment(comment.id)}>Approve</button>
 
                                                 <span className="">{comment.likes}</span>
                                             </form>
                                             <form onSubmit={(e)=>{handleAddingDislikeToComment(e,comment.id)}} >
                                                 <input type="hidden" value={comment.id} name="commentId" />
                                                 <input type="hidden" value={confession.id} name="confessionID" />
-                                                <button type="submit" className="btn btn-danger">
+                                                <button type="submit" className="btn btn-danger" disabled={hasReactedToComment(comment.id)}>
                                                     Condemn
                                                 </button>
                                                 <span className="">{comment.dislikes}</span>
