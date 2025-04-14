@@ -1,6 +1,7 @@
 import React from 'react';
 import ConfessionService from "../repository/repository";
 import {useNavigate} from "react-router-dom";
+import {Button, Form} from "react-bootstrap";
 const CommentForm = ({confessionId, onCommentAdded}) => {
 
     const navigate = useNavigate();
@@ -25,14 +26,16 @@ const CommentForm = ({confessionId, onCommentAdded}) => {
     return (
 
 
-        <form  className="mt-2" onSubmit={handleSubmit}>
 
-            <div className="form-group">
-                <textarea name="text"  rows="2" placeholder="Add a comment" value={commentText} onChange={(e)=>setCommentText(e.target.value)}></textarea>
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
 
-        </form>
+        <Form onSubmit={handleSubmit} className="mt-3">
+            <Form.Group controlId="commentText">
+                <Form.Label>Add a comment</Form.Label>
+                <Form.Control as="textarea" rows={3} value={commentText} onChange={(e)=>setCommentText(e.target.value)}></Form.Control>
+            </Form.Group>
+            <Button variant="primary" type="submit" className="mt-2">Submit</Button>
+
+        </Form>
     );
 };
 

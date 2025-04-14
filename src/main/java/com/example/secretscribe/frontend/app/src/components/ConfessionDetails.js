@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import CommentForm from "./CommentForm";
 import ConfessionService from "../repository/repository";
 import {useParams} from "react-router";
 import LikeDislike from "./LikeDislike";
+import { Card, Container, Row, Col, Button, Form, Badge } from 'react-bootstrap';
 
 const ConfessionDetails = () => {
     const {confessionId}=useParams();
@@ -71,51 +72,69 @@ const ConfessionDetails = () => {
     }
 
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-8 offset-md-2">
-                    <div className="confession">
-                        <p>{confession.text}</p>
-                        <LikeDislike confession={confession} />
+        <Container className="mt-5">
+            <Row className="justify-content-center">
+                <Col md={8}>
+                    <Card className="shadow-sm" style={{ backgroundColor: '#1e1f24', color: '#fff', border: '1px solid #333' }}>
+                        <Card.Body>
+                            <Card.Title className="mb-3" style={{ color: '#cc9304' }}>Anonymous Confession</Card.Title>
+                            <Card.Text>{confession.text}</Card.Text>
 
-                        <div className="comment-section mt-4">
+                            <div className="mb-4">
+                                <LikeDislike confession={confession} />
+                            </div>
 
                             <CommentForm onCommentAdded={onCommentAdded} confessionId={confessionId} />
-                            <h5>Comments</h5>
-                            {comments.length > 0 ?(
-                                comments.map(comment =>(
-                                    <div key={comment.id} className="comment mb-3">
-                                        <p>{comment.text}</p>
-                                        <div className="like-dislike">
-                                            <form onSubmit={(e)=>{handleAddingLikeToComment(e,comment.id)}} >
-                                                <input type="hidden" value={comment.id} name="commentId"/>
-                                                <input type="hidden" value={confession.id} name="confessionId"/>
-                                                <button type="submit" className="btn btn-success mr-2" disabled={hasReactedToComment(comment.id)}>Approve</button>
 
-                                                <span className="">{comment.likes}</span>
-                                            </form>
-                                            <form onSubmit={(e)=>{handleAddingDislikeToComment(e,comment.id)}} >
-                                                <input type="hidden" value={comment.id} name="commentId" />
-                                                <input type="hidden" value={confession.id} name="confessionID" />
-                                                <button type="submit" className="btn btn-danger" disabled={hasReactedToComment(comment.id)}>
-                                                    Condemn
-                                                </button>
-                                                <span className="">{comment.dislikes}</span>
-                                            </form>
-                                        </div>
-                                    </div>
+                            <h5 className="mt-5" style={{ color: '#cc9304' }}>Comments</h5>
+
+                            {comments.length > 0 ? (
+                                comments.map(comment => (
+                                    <Card key={comment.id} className="mb-3 shadow-sm" style={{ backgroundColor: '#1e1f24', color: '#fff', border: '1px solid #333' }}>
+                                        <Card.Body>
+                                            <Card.Text>{comment.text}</Card.Text>
+                                            <div className="d-flex gap-3 align-items-center">
+                                                <Form onSubmit={(e) => handleAddingLikeToComment(e, comment.id)} className="d-flex align-items-center">
+                                                    <Button
+                                                        type="submit"
+                                                        variant="success"
+                                                        size="sm"
+                                                        disabled={hasReactedToComment(comment.id)}
+                                                        style={{ backgroundColor: '#cc9304', borderColor: '#cc9304' }}
+                                                    >
+                                                        Approve
+                                                    </Button>
+                                                    <Badge bg="light" text="dark" className="ms-2">
+                                                        {comment.likes}
+                                                    </Badge>
+                                                </Form>
+
+                                                <Form onSubmit={(e) => handleAddingDislikeToComment(e, comment.id)} className="d-flex align-items-center">
+                                                    <Button
+                                                        type="submit"
+                                                        variant="danger"
+                                                        size="sm"
+                                                        disabled={hasReactedToComment(comment.id)}
+                                                        style={{ backgroundColor: '#dc3545', borderColor: '#dc3545' }}
+                                                    >
+                                                        Condemn
+                                                    </Button>
+                                                    <Badge bg="light" text="dark" className="ms-2">
+                                                        {comment.dislikes}
+                                                    </Badge>
+                                                </Form>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
                                 ))
-                            ):(
-                                <p>No comments yet.</p>
+                            ) : (
+                                <p className="text-muted">No comments yet.</p>
                             )}
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 };
-
 export default ConfessionDetails;

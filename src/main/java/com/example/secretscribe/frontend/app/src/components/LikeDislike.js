@@ -39,23 +39,20 @@ const LikeDislike = ({confession}) => {
         setDislikes(prevDislikes => prevDislikes + 1);
     }
     return (
-        <div className="like-dislike d-flex mt-2">
-            <form onSubmit={handleLikeClick} className="mr-2">
-                <input type="hidden" value={confession.id} />
-                <button type="submit" className="btn btn-success" disabled={hasReacted(confession.id)}>
-                    Approve
-                    <span className="badge badge-light">{likes}</span>
-                </button>
-            </form>
-            <form onSubmit={handleDislikeClick} className="mr-2" >
-                <input type="hidden" value={confession.id} />
-                <button type="submit" className="btn btn-danger" disabled={hasReacted(confession.id)}>
-                    Condemn
-                    <span className="badge badge-light">{dislikes}</span>
+        <div className="d-flex gap-3 align-items-center mt-3">
+            <form onSubmit={handleLikeClick}>
+                <button type="submit" className="btn btn-outline-success d-flex align-items-center gap-2" disabled={hasReacted(confession.id)}>
+                    👍 Approve
+                    <span className="badge bg-success text-white">{likes}</span>
                 </button>
             </form>
 
-
+            <form onSubmit={handleDislikeClick}>
+                <button type="submit" className="btn btn-outline-danger d-flex align-items-center gap-2" disabled={hasReacted(confession.id)}>
+                    👎 Condemn
+                    <span className="badge bg-danger text-white">{dislikes}</span>
+                </button>
+            </form>
         </div>
     );
 };

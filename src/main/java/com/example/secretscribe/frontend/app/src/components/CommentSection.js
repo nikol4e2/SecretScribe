@@ -5,7 +5,13 @@ const CommentSection = ({confessionId}) => {
     return (
         <div className="comment-section mt-3">
             <h5>
-            <Link to={`/comment/${confessionId}`}>Comments</Link>
+                <Link
+                    to={`/comment/${confessionId}`}
+                    style={{ color: '#cc9304', textDecoration: 'none' }}
+
+                >
+                    Comments
+                </Link>
             </h5>
             <CommentForm confessionId={confessionId} />
         </div>

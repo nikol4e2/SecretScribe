@@ -3,10 +3,11 @@ import Confession from "./Confession";
 import {useState} from "react";
 import {useEffect} from "react";
 import ConfessionService from "../repository/repository";
-
+import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 const ConfessionList = ({type}) => {
 
     const [confessions, setConfessions] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if(type === "popular") {
@@ -19,8 +20,9 @@ const ConfessionList = ({type}) => {
 
 
     const loadConfessions= () =>{
-
-        ConfessionService.fetchConfessions().then(data => setConfessions(data.data)).catch(err => console.log(err));
+        setLoading(true);
+        ConfessionService.fetchConfessions().then(data => {setConfessions(data.data)
+        setLoading(false)}).catch(err => {console.log(err); setLoading(false)});
     }
 
     const loadPopularConfession= () =>{
@@ -30,22 +32,25 @@ const ConfessionList = ({type}) => {
 
 
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-8 offset-md-2">
-
-                    {confessions.length > 0 ? (
-                    confessions.map(confession =>(
-                        <Confession key={confession.id} confession={confession} />
-                    ))
-                        ) :(
-                            <div className="text-center mt-5">
-                                <p className="text-muted">No confessions yet</p>
-                            </div>
-                        )}
-                </div>
-            </div>
-        </div>
+        <Container className="mt-5">
+            <Row className="justify-content-center">
+                <Col md={8}>
+                    {loading ? (
+                        <div className="text-center mt-5">
+                            <Spinner animation="border" role="status" />
+                        </div>
+                    ) : confessions.length > 0 ? (
+                        confessions.map((confession) => (
+                            <Confession key={confession.id} confession={confession} />
+                        ))
+                    ) : (
+                        <Alert variant="light" className="text-center mt-5">
+                            No confessions yet.
+                        </Alert>
+                    )}
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
